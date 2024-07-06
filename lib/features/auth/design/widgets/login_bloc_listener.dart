@@ -31,7 +31,7 @@ class LoginBlocListener extends StatelessWidget {
         }
         if (state is SignInSuccessState) {
           FirebaseAuth.instance.currentUser!.emailVerified
-              ? navigateToHomeAndInistialScreen(context)
+              ? navigateToTabBarLayout(context)
               : showToast(msg: "Please Verify Your Account", color: Colors.red);
         } else if (state is SignInErrorState) {
           showToast(msg: state.errMessage, color: Colors.red);
@@ -41,8 +41,8 @@ class LoginBlocListener extends StatelessWidget {
     );
   }
 
-  void navigateToHomeAndInistialScreen(BuildContext context) {
-    context.navigateToReplacement(Routes.homeScreen);
+  void navigateToTabBarLayout(BuildContext context) {
+    context.navigateToReplacement(Routes.tabBarLayout);
 
     getIt<CacheHelper>().saveData(key: Routes.loginScreen, value: true);
   }

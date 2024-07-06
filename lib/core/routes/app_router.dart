@@ -3,7 +3,7 @@ import 'package:facebook/features/auth/design/screens/intro_to_signup_screen.dar
 import 'package:facebook/features/auth/design/screens/login_screen.dart';
 import 'package:facebook/features/auth/design/screens/forgot_password.dart';
 import 'package:facebook/features/auth/logic/auth_cubit.dart';
-import 'package:facebook/features/home/design/home_screen.dart';
+import 'package:facebook/features/home/design/screens/tabbar_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,9 +43,9 @@ class AppRouter {
           ),
         );
 
-      case Routes.homeScreen:
+      case Routes.tabBarLayout:
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (buildContext) => const TabBarLayout(),
         );
     }
     return null;

@@ -31,7 +31,7 @@ class Facebook extends StatelessWidget {
 
   String sharedStartApp() {
     if (login == true) {
-      return Routes.homeScreen;
+      return Routes.tabBarLayout;
     } else {
       return Routes.loginScreen;
     }
