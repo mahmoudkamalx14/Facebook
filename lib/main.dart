@@ -2,18 +2,16 @@ import 'package:facebook/core/cache/cache_helper.dart';
 import 'package:facebook/core/di/dependency_injection.dart';
 import 'package:facebook/core/routes/app_router.dart';
 import 'package:facebook/facebook_app.dart';
-import 'package:facebook/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   setupGetIt();
 
   await CacheHelper().init();
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(Facebook(appRouter: AppRouter()));
 }

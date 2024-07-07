@@ -3,7 +3,7 @@ import 'package:facebook/core/utils/app_constants.dart';
 import 'package:facebook/core/widgets/custom_text_button.dart';
 import 'package:facebook/core/widgets/custom_text_form_field.dart';
 import 'package:facebook/features/auth/design/widgets/login_bloc_listener.dart';
-import 'package:facebook/features/auth/logic/auth_cubit.dart';
+import 'package:facebook/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void validateThenDoLogin(BuildContext context) {
-    AuthCubit.get(context).signInWithEmailAndPassword(
+    AuthCubit.get(context).emitLoginStates(
       AppConstants.emailController.text,
       AppConstants.passwordController.text,
     );

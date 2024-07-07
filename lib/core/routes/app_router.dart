@@ -1,8 +1,9 @@
+import 'package:facebook/core/di/dependency_injection.dart';
 import 'package:facebook/core/routes/routes.dart';
 import 'package:facebook/features/auth/design/screens/intro_to_signup_screen.dart';
 import 'package:facebook/features/auth/design/screens/login_screen.dart';
 import 'package:facebook/features/auth/design/screens/forgot_password.dart';
-import 'package:facebook/features/auth/logic/auth_cubit.dart';
+import 'package:facebook/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:facebook/features/home/design/screens/tabbar_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class AppRouter {
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (buildContext) => AuthCubit(),
+            create: (buildContext) => getIt<AuthCubit>(),
             child: const LoginScreen(),
           ),
         );
@@ -25,7 +26,7 @@ class AppRouter {
       case Routes.forgotPassword:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (buildContext) => AuthCubit(),
+            create: (buildContext) => getIt<AuthCubit>(),
             child: const ForgotPassword(),
           ),
         );
@@ -38,7 +39,7 @@ class AppRouter {
       case Routes.signupScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (buildContext) => AuthCubit(),
+            create: (buildContext) => getIt<AuthCubit>(),
             child: const SignupScreen(),
           ),
         );

@@ -7,8 +7,8 @@ import 'package:facebook/core/utils/app_constants.dart';
 import 'package:facebook/core/widgets/custom_app_bar.dart';
 import 'package:facebook/core/widgets/custom_text_button.dart';
 import 'package:facebook/core/widgets/custom_text_form_field.dart';
-import 'package:facebook/features/auth/logic/auth_cubit.dart';
-import 'package:facebook/features/auth/logic/auth_state.dart';
+import 'package:facebook/features/auth/logic/cubit/auth_cubit.dart';
+import 'package:facebook/features/auth/logic/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,21 +20,46 @@ class ForgotPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     final keyResetPassword = GlobalKey<FormState>();
     return BlocConsumer<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          current is Loading ||
+          current is Error ||
+          current is SuccessResetPassword,
       listener: (context, state) {
-        if (state is LoadingState) {
-          showDialog(
-            context: context,
-            builder: (context) => const CircularProgressIndicator(),
-          );
-        }
-
-        if (state is ResetPasswordState) {
-          showToast(
-            msg: "Successfully,Check your email to reset your password",
-            color: Colors.red,
-          );
-          context.navigateToReplacement(Routes.loginScreen);
-        }
+        state.whenOrNull(
+          loading: () {
+            showDialog(
+              context: context,
+              builder: (context) => const CircularProgressIndicator(),
+            );
+          },
+          successResetPassword: (data) {
+            showToast(
+              msg: "Successfully,Check your email to reset your password",
+              color: Colors.red,
+            );
+            context.navigateToReplacement(Routes.loginScreen);
+          },
+          error: (message) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                icon: const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 32,
+                ),
+                content: Text(
+                  message,
+                  style: AppStyles.style16Bold
+                    ..copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                ),
+              ),
+            );
+          },
+        );
       },
       builder: (context, state) {
         return Scaffold(
@@ -69,7 +94,7 @@ class ForgotPassword extends StatelessWidget {
                         }
                       },
                     ),
-                    if (state is LoadingState) const LinearProgressIndicator(),
+                    if (state is Loading) const LinearProgressIndicator(),
                   ],
                 ),
               ),
@@ -82,6 +107,6 @@ class ForgotPassword extends StatelessWidget {
 
   void validateThenDoResetPassword(context) {
     AuthCubit.get(context)
-        .resetPasswordWithLink(AppConstants.emailController.text);
+        .emitResetPasswordStates(AppConstants.emailController.text);
   }
 }

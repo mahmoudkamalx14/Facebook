@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:facebook/features/auth/data/models/user_model.dart';
 import 'package:facebook/features/auth/design/widgets/register_bloc_listener.dart';
+import 'package:facebook/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/core/helper/spaces.dart';
 import 'package:facebook/core/utils/app_constants.dart';
 import 'package:facebook/core/widgets/custom_text_button.dart';
 import 'package:facebook/core/widgets/custom_text_form_field.dart';
-import 'package:facebook/features/auth/logic/auth_cubit.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key});
@@ -86,7 +86,7 @@ class _SignupFormState extends State<SignupForm> {
   }
 
   void validateThenDoRegister(BuildContext context) {
-    AuthCubit.get(context).registerWithEmailAndPassword(
+    AuthCubit.get(context).emitRegisterStates(
       UserModel(
         uId: FirebaseFirestore.instance.collection('users').doc().id,
         firstName: AppConstants.firstNameController.text,
